@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./image.jpeg" type="image/x-icon">
+    <title>داستان نویسی مشارکتی</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* تعریف فونت و متغیرها */
+        @font-face {
+            font-family: 'B Nazanin';
+            src: url('path/to/BNazanin.ttf') format('truetype');
+        }
+
+        :root {
+            --primary-color: #250ff0;
+            --secondary-color:rgba(243, 25, 6, 0.971);
+            --background-color: #f7f8fc;
+            --text-color: #333;
+            --card-bg-color: #ffffff;
+            --hover-color: rgba(108, 99, 255, 0.2);
+            --button-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ریست استایل‌ها */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+    
+        /* استایل‌های کلی صفحه */
+        body {
+            font-family: 'B Nazanin';
+            direction: rtl;
+            text-align: right;
+            font-size: 22px;
+            line-height: 1.5;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        /* هدر با تصویر پس‌زمینه متحرک */
+        header {
+            text-align: center;
+            background: var(--gradient);
+            color: white;
+            padding: 50px 20px;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 10px 30px rgba(119, 113, 113, 0.15);
+            animation: fadeInDown 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('background.jpg') no-repeat center center/cover;
+            opacity: 0.2;
+            z-index: -1;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: slideIn 1s ease;
+        }
+
+        header img {
+            max-width: 150px;
+            margin-top: 20px;
+            border-radius: 50%;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            animation: zoomIn 1s ease;
+        }
+
+        /* نوار ناوبری */
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            box-shadow: var(--button-shadow);
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul li a:hover {
+            background: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        /* بخش اصلی */
+        main {
+            padding: 50px 20px;
+            background-color: var(--card-bg-color);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            margin: -40px auto 20px auto;
+            max-width: 1200px;
+            animation: fadeIn 1s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* بخش‌های مختلف */
+        section {
+            background: var(--card-bg-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 15px;
+            animation: slideIn 1s ease;
+        }
+
+ 
+
+        /* فرم تماس */
+        form {
+            background-color: var(--card-bg-color);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            animation: fadeIn 1s ease;
+        }
+
+        form label {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: 'B Nazanin', sans-serif;
+            font-size: 1rem;
+        }
+
+        form input[type="submit"] {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: var(--button-shadow);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        form input[type="submit"]:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* فوتر */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 10px 10px 0 0;
+            animation: fadeInUp 1s ease;
+        }
+
+        /* انیمیشن‌ها */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes moveBackground {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* جلوه‌های ویژه */
+        .glow {
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px var(--primary-color); }
+            to { box-shadow: 0 0 20px var(--secondary-color); }
+        }
+
+
+
+
+        select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'B Nazanin', sans-serif;
+    font-size: 1rem;
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+}
+
+select:hover {
+    border-color: var(--primary-color);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>داستان نویسی مشارکتی</h1>
+        <img src="image.jpeg" alt="تصویر">
+        <nav>
+            <ul>
+                <li><a href="#about">درباره ما</a></li>
+                <li><a href="index.php">ورود/ثبت‌نام</a></li> 
+                <li><a href="#contact">تماس با ما</a></li>
+            </ul>
+        </nav>
+    </header>
+</br>
+</br>
+</br>
+    </br>
+    <main>
+        <section id="about">  
+            <h2>درباره ما</h2>  
+            <p><b>به نام خدا</b>  
+            </br>
+                داستان‌نویسی مشارکتی یکی از شیوه‌های نوین نوشتن داستان است که در آن چند نفر به‌طور همزمان یا به‌صورت مشترک در خلق یک اثر داستانی شرکت می‌کنند. این روش نوشتن می‌تواند به شیوه‌های مختلفی انجام شود و دارای ویژگی‌ها و مزایای خاص خود است. در ادامه به توضیحاتی در مورد داستان‌نویسی مشارکتی پرداخته می‌شود:
+            </br>
+                <b>تعریف داستان‌نویسی مشارکتی: </b> 
+        </br>
+                داستان‌نویسی مشارکتی به معنای همکاری و تعامل بین چند نویسنده (یا یک گروه بزرگ‌تر) برای خلق یک داستان واحد است. در این نوع نوشتن، نویسندگان می‌توانند هر قسمت از داستان را بر عهده بگیرند، شخصیت‌ها را توسعه دهند، دیالوگ‌ها را بنویسند و مسیر داستان را جهت‌دهی کنند.
+            </br>
+                <b> روش‌های داستان‌نویسی مشارکتی: </b> 
+        </br>
+                زندگی مصنوعی (Collaborative Fiction): در این روش، نویسندگان به‌صورت آنلاین و در یک پلتفرم مشترک داستان را می‌نویسند. هر نویسنده ممکن است بخش‌هایی از داستان را اضافه کند یا تغییراتی در بخش‌های قبلی ایجاد کند.
+                داستا‌ن‌نویسی حلقه‌ای (Round-Robin Storytelling): در این تکنیک، افراد یک به یک نوبت می‌گیرند تا قسمت‌های داستان را بنویسند. هر نویسنده تنها می‌تواند بر اساس بخش‌های قبلی داستان ادامه دهد.
+                برچسب‌گذاری (Tag Storytelling): در این شکل، هر نویسنده پس از نوشتن یک بخش، یک برچسب به داستان اضافه می‌کند که به دیگر نویسندگان کمک می‌کند تا بدانند چطور می‌توانند داستان را ادامه دهند.
+            </br>
+                <b> مزایای داستان‌نویسی مشارکتی:</b> 
+        </br>
+                خلاقیت مشترک: همکاری با دیگر نویسندگان می‌تواند خروجی‌های غیرمنتظره و خلاقانه‌ای به همراه داشته باشد که هر نویسنده به‌تنهایی نمی‌تواند به آن‌ها دست یابد.
+                توسعه مهارت‌های نوشتن: نویسندگان با کار کردن در کنار یکدیگر می‌توانند از تجربیات و ایده‌های همدیگر بهره‌مند شوند و مهارت‌های خود را تقویت کنند.
+                گسترش شبکه اجتماعی: داستان‌نویسی مشارکتی فرصتی برای ملاقات افراد جدید و برقراری ارتباط با سایر نویسندگان فراهم می‌آورد.
+            </br>
+                <b> چالش‌های داستان‌نویسی مشارکتی:</b> 
+            <br/>
+                همگامی و هماهنگی: حفظ انسجام داستان وقتی که چند نویسنده در حال کار بر روی آن هستند، ممکن است دشوار باشد.
+                تضادهای خلاق: گاهی ممکن است که نویسندگان در مورد اهداف داستان یا نحوه توسعه شخصیت‌ها اختلاف نظر داشته باشند.
+                تقسیم کار: در صورتی که تقسیم کار به درستی انجام نشود، ممکن است برخی نویسندگان بیشتر از دیگران دچار بار اضافی شوند.
+            </br>
+              <b>کاربردها:</b> 
+                <br/>
+                داستان‌نویسی مشارکتی می‌تواند در زمینه‌های مختلفی کاربرد داشته باشد، از جمله:
+                
+                نوشتن رمان یا داستان‌های کوتاه: گروه‌های نویسندگی می‌توانند با همکاری به خلق ادبیات بپردازند.
+                نویسندگی بازی‌های ویدیویی یا RPG: در بسیاری از بازی‌های ویدیویی، داستان‌ها توسط تیمی از نویسندگان خلق می‌شوند.
+                برگزاری کارگاه‌های آموزشی: در کارگاه‌های داستان‌نویسی، اساتید می‌توانند به نویسندگان مبتدی کمک کنند تا با اصول داستان‌نویسی مشارکتی آشنا شوند.
+        </br>
+                <b>نتیجه‌گیری :</b> 
+                <br/>
+                داستان‌نویسی مشارکتی یک فرایند خلاقانه و دو طرفه است که می‌تواند منجر به ایجاد داستان‌های جذاب و نوآورانه شود. این شیوه به نویسندگان این امکان را می‌دهد که ایده‌های خود را با دیگران به اشتراک بگذارند و در کنار یکدیگر از دنیای داستان‌نویسی لذت ببرند.     
+            </p>  
+        </section>  
+
+        <form onsubmit="submitForm(event)">
+            <section id="contact">  
+                <h2>تماس با ما</h2> 
+                <label for="name">نام:</label>
+                <input type="text" id="name" name="name" placeholder="نام خود را وارد کنید"><br>
+                <label for="email">ایمیل:</label>
+                <input type="email" id="email" name="email" placeholder="ایمیل خود را وارد کنید"><br>
+                
+                <!-- اضافه کردن گزینه‌ها -->
+                <label for="subject">موضوع:</label>
+                <select id="subject" name="subject">
+                    <option value="general">عمومی</option>
+                    <option value="support">پشتیبانی</option>
+                    <option value="collaboration">همکاری</option>
+                    <option value="feedback">بازخورد</option>
+                    <option value="other">سایر</option>
+                </select><br>
+        
+                <label for="message">پیام:</label>
+                <textarea id="message" name="message" placeholder="پیام خود را وارد کنید" style="height: 100px;"></textarea><br>
+                <input type="submit" value="ارسال">
+            </section>
+        </form>
+    </main>
+    <footer>
+        تمامی حقوق محفوظ است.
+    </footer>
+
+</body>
+</html>

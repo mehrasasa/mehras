@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./image.jpeg" type="image/x-icon">
+    <title>صفحه ثبت‌نام و ورود</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50; /* سبز روشن */
+            --secondary-color: #6c757d; /* خاکستری */
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --input-bg-color: #ffffff;
+            --input-border-color: #ddd;
+            --hover-color: #45a049;
+            --error-color: #e74c3c; /* قرمز */
+            --success-color: #27ae60; /* سبز تیره */
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --border-radius: 20px;
+            --gradient-color: linear-gradient(135deg, #4CAF50, #45a049);
+            --input-focus-color: rgba(76, 175, 80, 0.6);
+            --button-hover-shadow: rgba(76, 175, 80, 0.4);
+        }
+        @keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.container {
+    animation: slideIn 0.8s ease-out;
+} 
+:root {
+    --gradient-color: linear-gradient(135deg, #4CAF50, #45a049, #3d8b40);
+}
+
+button {
+    background: var(--gradient-color);
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40, #4CAF50);
+}
+.container {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+    box-shadow: 0 12px 24px rgba(76, 175, 80, 0.6);
+}
+.input-group:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(76, 175, 80, 0.6);
+}
+body {
+    background: radial-gradient(circle, rgba(232, 248, 239, 1) 0%, rgba(193, 221, 205, 1) 100%), url('background-image.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+.background-circles div {
+    animation: float 6s ease-in-out infinite, parallax 10s ease-in-out infinite;
+}
+
+@keyframes parallax {
+    0%, 100% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(20px) translateY(20px);
+    }
+}
+        body {
+            font-family: "Vazir", Arial, sans-serif;
+            background: radial-gradient(circle, rgba(232, 248, 239, 1) 0%, rgba(193, 221, 205, 1) 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            direction: rtl;
+            overflow: hidden;
+        }
+
+        .background-circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-circles div {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(76, 175, 80, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .background-circles div:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 5%;
+        }
+
+        .background-circles div:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 70%;
+            left: 80%;
+            animation-duration: 9s;
+        }
+
+        .background-circles div:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 50%;
+            left: 50%;
+            animation-duration: 12s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .container {
+            background: var(--input-bg-color);
+            padding: 50px 40px;
+            box-shadow: 0 15px 30px var(--shadow-color);
+            border-radius: var(--border-radius);
+            width: 420px;
+            text-align: center;
+            border: 1px solid var(--input-border-color);
+            animation: fadeIn 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            font-size: 28px;
+            color: var(--text-color);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            animation: titleAnimation 1.2s ease-out;
+        }
+
+        @keyframes titleAnimation {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 10px auto 0;
+            border-radius: 5px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            border-radius: var(--border-radius);
+            background-color: var(--input-bg-color);
+            border: 1px solid var(--input-border-color);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-group:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        .input-group i {
+            padding: 12px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+            transition: background-color 0.3s ease;
+        }
+
+        .input-group i:hover {
+            background-color: var(--primary-color);
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 16px;
+            color: var(--text-color);
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            box-shadow: 0 0 8px var(--input-focus-color);
+            border-color: var(--primary-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            background: var(--hover-color);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--button-hover-shadow);
+        }
+
+        .secondary-btn {
+            background: #f8f9fa;
+            color: var(--text-color);
+            font-weight: normal;
+        }
+
+        .secondary-btn:hover {
+            background: #e2e6ea;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            animation: fadeInUp 0.8s ease-in-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.success {
+            color: var(--success-color);
+        }
+
+        .message.error {
+            color: var(--error-color);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 90%;
+                padding: 35px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-circles">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <div class="container">
+        <h2 id="form-title">ثبت‌نام</h2>
+        <form id="registration-form">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" placeholder="نام کاربری" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="ایمیل" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="رمز عبور" required>
+            </div>
+            <button type="button" onclick="register()">ثبت‌نام</button>
+            <button type="button" class="secondary-btn" onclick="toggleForm()">حساب کاربری دارید؟ ورود</button>
+        </form>
+
+        <form id="login-form" style="display: none;">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="login-username" placeholder="نام کاربری" required>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="login-password" placeholder="رمز عبور" required>
+            </div>
+            <button type="button" onclick="login()">ورود</button>
+            <button type="button" class="secondary-btn" onclick="toggleForm()">حساب کاربری ندارید؟ ثبت‌نام</button>
+        </form>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        session_start();
+// پس از تأیید اعتبار کاربر
+$_SESSION['username'] = $username; // ذخیره نام کاربری در session
+
+        function toggleForm() {
+            const registrationForm = document.getElementById('registration-form');
+            const loginForm = document.getElementById('login-form');
+            const formTitle = document.getElementById('form-title');
+
+            if (registrationForm.style.display === 'none') {
+                registrationForm.style.display = 'block';
+                loginForm.style.display = 'none';
+                formTitle.innerText = 'ثبت‌نام';
+            } else {
+                registrationForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                formTitle.innerText = 'ورود';
+            }
+        }
+
+        function register() {
+    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    users.push({ username, email, password });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    localStorage.setItem("username", username);
+    localStorage.setItem("email", email);
+
+    if (username === "admin") {
+        window.location.href = "admin.html";
+    } else {
+        document.getElementById('message').innerText = 'ثبت‌نام با موفقیت انجام شد! لطفاً وارد شوید.';
+        document.getElementById('message').className = 'message success';
+
+        setTimeout(() => {
+            toggleForm(); // بعد از ۲ ثانیه فرم ورود نمایش داده شود
+        }, 2000);
+    }
+}
+
+function login() {
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const foundUser = users.find(user => user.username === username && user.password === password);
+
+    if (foundUser) {
+        // ذخیره اطلاعات کاربر در localStorage با کلید منحصر به فرد
+        localStorage.setItem("currentUser", username);
+        document.getElementById('message').innerText = 'ورود موفقیت‌آمیز بود!';
+        document.getElementById('message').className = 'message success';
+
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 2000);
+    } else {
+        document.getElementById('message').innerText = 'نام کاربری یا رمز عبور اشتباه است.';
+        document.getElementById('message').className = 'message error';
+    }
+}
+
+    </script>
+
+    
+</body>
+</html>

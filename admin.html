@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>پنل مدیریت </title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Vazirmatn', sans-serif;
+      background: linear-gradient(to left, #f8f8f8, #eeeeee);
+      direction: rtl;
+    }
+
+    .navbar {
+      background-color: #512da8;
+      padding: 20px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .navbar h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    .navbar button {
+      background: #d32f2f;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: #f3e5f5;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      flex: 1;
+      margin: 0 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .search-add {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .search-add input {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin: 5px;
+      width: 250px;
+    }
+    .search-add button {
+      background-color: #388e3c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+    th {
+      background-color: #673ab7;
+      color: white;
+    }
+    td button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+    .edit { background: #0288d1; color: white; }
+    .delete { background: #e53935; color: white; }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #4caf50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    .role {
+  background: #ff9800;
+  color: white;
+}
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>👑 پنل مدیریت پیشرفته</h1>
+    <button onclick="logout()">خروج</button>
+  </div>
+
+  <div class="container">
+    <div class="stats">
+      <div class="card">👤 کاربران: <span id="user-count">0</span></div>
+      <div class="card">🧑‍💼 ادمین: <strong>admin</strong></div>
+    </div>
+
+    <div class="search-add">
+      <input type="text" id="search" placeholder="جستجو کاربر..." oninput="loadUsers()">
+      <input type="text" id="username" placeholder="نام کاربری">
+      <input type="email" id="email" placeholder="ایمیل">
+      <button onclick="addUser()">افزودن کاربر</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>نام کاربری</th>
+          <th>ایمیل</th>
+          <th>نقش</th>
+          <th>عملیات</th>
+        </tr>
+      </thead>
+      <tbody id="user-table"></tbody>
+    </table>
+
+
+  <div class="toast" id="toast"></div>
+<!-- بعد از جدول کاربران در admin.html -->
+<div class="section-title" style="margin-top: 40px; font-size: 1.5rem; color: #512da8; border-bottom: 2px solid #512da8; padding-bottom: 10px;">
+  مدیریت داستان‌ها
+</div>
+
+<div class="search-add" style="margin-top: 20px;">
+  <input type="text" id="story-search" placeholder="جستجو داستان..." oninput="loadStories()">
+  <select id="story-type" onchange="loadStories()">
+    <option value="all">همه داستان‌ها</option>
+    <option value="uploaded">آپلود شده</option>
+    <option value="shared">اشتراک گذاری شده</option>
+  </select>
+</div>
+
+<table style="margin-top: 20px;">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>عنوان</th>
+      <th>نویسنده</th>
+      <th>تاریخ</th>
+      <th>نوع</th>
+      <th>عملیات</th>
+    </tr>
+  </thead>
+  <tbody id="story-table"></tbody>
+</table>
+  <script>
+
+// توابع جدید برای مدیریت داستان‌ها
+function loadStories() {
+  const searchTerm = document.getElementById("story-search").value.toLowerCase();
+  const storyType = document.getElementById("story-type").value;
+  
+  // دریافت داستان‌های آپلود شده و اشتراک گذاری شده از localStorage
+  const uploadedStories = JSON.parse(localStorage.getItem('uploadedStories')) || [];
+  const sharedStories = JSON.parse(localStorage.getItem('sharedStories')) || [];
+  
+  let allStories = [];
+  
+  // ترکیب داستان‌ها با اضافه کردن نوع آنها
+  uploadedStories.forEach(story => {
+    allStories.push({...story, type: 'uploaded'});
+  });
+  
+  sharedStories.forEach(story => {
+    allStories.push({...story, type: 'shared'});
+  });
+  
+  // فیلتر کردن بر اساس نوع داستان
+  if (storyType !== 'all') {
+    allStories = allStories.filter(story => story.type === storyType);
+  }
+  
+  // فیلتر کردن بر اساس جستجو
+  if (searchTerm) {
+    allStories = allStories.filter(story => 
+      story.title.toLowerCase().includes(searchTerm) ||
+      (story.author || story.initialAuthor).toLowerCase().includes(searchTerm)
+    );
+  }
+  
+  // مرتب سازی بر اساس تاریخ (جدیدترین اول)
+  allStories.sort((a, b) => {
+    const dateA = new Date(a.date || a.createdAt);
+    const dateB = new Date(b.date || b.createdAt);
+    return dateB - dateA;
+  });
+  
+  // نمایش در جدول
+  const table = document.getElementById("story-table");
+  table.innerHTML = '';
+  
+  allStories.forEach((story, index) => {
+    const row = document.createElement('tr');
+    
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${story.title}</td>
+      <td>${story.author || story.initialAuthor}</td>
+      <td>${story.date || story.createdAt}</td>
+      <td>${story.type === 'uploaded' ? 'آپلود شده' : 'اشتراک گذاری شده'}</td>
+      <td>
+        <button class="delete" onclick="deleteStory('${story.id || story.title}', '${story.type}')">حذف</button>
+        <button class="edit" onclick="viewStory('${story.id || story.title}', '${story.type}')">مشاهده</button>
+      </td>
+    `;
+    
+    table.appendChild(row);
+  });
+}
+
+function deleteStory(id, type) {
+  if (!confirm('آیا از حذف این داستان اطمینان دارید؟')) return;
+  
+  if (type === 'uploaded') {
+    let uploadedStories = JSON.parse(localStorage.getItem('uploadedStories')) || [];
+    uploadedStories = uploadedStories.filter(story => story.title !== id);
+    localStorage.setItem('uploadedStories', JSON.stringify(uploadedStories));
+  } else {
+    let sharedStories = JSON.parse(localStorage.getItem('sharedStories')) || [];
+    sharedStories = sharedStories.filter(story => story.id !== id);
+    localStorage.setItem('sharedStories', JSON.stringify(sharedStories));
+  }
+  
+  showToast('داستان با موفقیت حذف شد');
+  loadStories();
+}
+
+function viewStory(id, type) {
+  let story;
+  
+  if (type === 'uploaded') {
+    const uploadedStories = JSON.parse(localStorage.getItem('uploadedStories')) || [];
+    story = uploadedStories.find(s => s.title === id);
+  } else {
+    const sharedStories = JSON.parse(localStorage.getItem('sharedStories')) || [];
+    story = sharedStories.find(s => s.id === id);
+  }
+  
+  if (!story) {
+    return showToast('داستان یافت نشد');
+  }
+  
+  const content = story.content.length > 500 ? 
+    story.content.substring(0, 500) + '...' : 
+    story.content;
+  
+  alert(`عنوان: ${story.title}\n\nنویسنده: ${story.author || story.initialAuthor}\n\nمحتوا:\n${content}`);
+}
+
+// فراخوانی تابع هنگام لود صفحه
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem("username") === "admin") {
+    loadUsers();
+    loadStories(); // بارگذاری داستان‌ها همزمان با بارگذاری صفحه
+  }
+});
+
+function editUser(username) {
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let user = users.find(u => u.username === username);
+  
+  if (!user) return;
+
+  let newUsername = prompt("نام کاربری جدید:", user.username);
+  if (!newUsername) return;
+
+  // بررسی تکراری نبودن نام کاربری
+  if (newUsername !== username && users.some(u => u.username === newUsername)) {
+    return showToast("نام کاربری تکراری است!");
+  }
+
+  let newEmail = prompt("ایمیل جدید:", user.email);
+  if (!newEmail) return;
+
+  // اعمال تغییرات
+  user.username = newUsername;
+  user.email = newEmail;
+
+  localStorage.setItem("users", JSON.stringify(users));
+  showToast("اطلاعات کاربر با موفقیت به‌روزرسانی شد");
+  loadUsers();
+}
+
+function addUser() {
+  let username = document.getElementById("username").value.trim();
+  let email = document.getElementById("email").value.trim();
+  
+  if (!username || !email) {
+    return showToast("لطفاً تمام فیلدها را پر کنید");
+  }
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  
+  if (users.some(u => u.username === username)) {
+    return showToast("نام کاربری قبلاً استفاده شده است");
+  }
+
+  // اضافه کردن سطح دسترسی به کاربر جدید
+  let newUser = {
+    username,
+    email,
+    role: "user", // مقدار پیش‌فرض
+    isActive: true // وضعیت فعال بودن
+  };
+
+  users.push(newUser);
+  localStorage.setItem("users", JSON.stringify(users));
+  
+  // پاک کردن فیلدها
+  document.getElementById("username").value = "";
+  document.getElementById("email").value = "";
+  
+  showToast("کاربر جدید با موفقیت اضافه شد");
+  loadUsers();
+}
+
+function changeUserRole(username) {
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let user = users.find(u => u.username === username);
+  
+  if (!user) return;
+
+  let newRole = prompt("نقش جدید (admin/user):", user.role);
+  if (!newRole || !["admin", "user"].includes(newRole)) return;
+
+  user.role = newRole;
+  localStorage.setItem("users", JSON.stringify(users));
+  showToast(`نقش کاربر به ${newRole} تغییر یافت`);
+  loadUsers();
+}
+
+function loadUsers() {
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const search = document.getElementById("search").value.toLowerCase();
+  const table = document.getElementById("user-table");
+  const count = document.getElementById("user-count");
+
+  let filtered = users.filter(u => u.username !== "admin"); // عدم نمایش ادمین اصلی
+  if (search) {
+    filtered = filtered.filter(u => 
+      u.username.toLowerCase().includes(search) || 
+      u.email.toLowerCase().includes(search)
+    );
+  }
+
+  table.innerHTML = "";
+  filtered.forEach((user, i) => {
+    table.innerHTML += `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${user.username}</td>
+        <td>${user.email}</td>
+        <td>${user.role || 'user'}</td>
+        <td>
+          <button class="edit" onclick="editUser('${user.username}')">ویرایش</button>
+          <button class="role" onclick="changeUserRole('${user.username}')">تغییر نقش</button>
+          <button class="delete" onclick="deleteUser('${user.username}')">حذف</button>
+        </td>
+      </tr>`;
+  });
+  count.textContent = filtered.length;
+}
+
+
+
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.style.display = "block";
+      setTimeout(() => toast.style.display = "none", 3000);
+    }
+
+    function loadUsers() {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const search = document.getElementById("search").value.toLowerCase();
+      const table = document.getElementById("user-table");
+      const count = document.getElementById("user-count");
+
+      let filtered = users.filter(u => u.username !== "admin");
+      if (search) {
+        filtered = filtered.filter(u => u.username.toLowerCase().includes(search));
+      }
+
+      table.innerHTML = "";
+      filtered.forEach((user, i) => {
+        table.innerHTML += `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td>
+              <button class="edit" onclick="editUser('${user.username}')">ویرایش</button>
+              <button class="delete" onclick="deleteUser('${user.username}')">حذف</button>
+            </td>
+          </tr>`;
+      });
+      count.textContent = filtered.length;
+    }
+
+    function addUser() {
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      if (!username || !email) return showToast("اطلاعات ناقص است.");
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      if (users.find(u => u.username === username)) return showToast("نام کاربری تکراری است.");
+
+      users.push({ username, email });
+      localStorage.setItem("users", JSON.stringify(users));
+      document.getElementById("username").value = "";
+      document.getElementById("email").value = "";
+      showToast("کاربر اضافه شد.");
+      loadUsers();
+    }
+
+    function deleteUser(username) {
+      if (!confirm("حذف شود؟")) return;
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      users = users.filter(u => u.username !== username);
+      localStorage.setItem("users", JSON.stringify(users));
+      showToast("کاربر حذف شد.");
+      loadUsers();
+    }
+
+    function editUser(username) {
+      const newEmail = prompt("ایمیل جدید را وارد کنید:");
+      if (!newEmail) return;
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      let user = users.find(u => u.username === username);
+      if (user) user.email = newEmail;
+      localStorage.setItem("users", JSON.stringify(users));
+      showToast("اطلاعات به‌روزرسانی شد.");
+      loadUsers();
+    }
+
+    function logout() {
+      localStorage.removeItem("username");
+      window.location.href = "index.php";
+    }
+
+    if (localStorage.getItem("username") !== "admin") {
+      alert("دسترسی غیرمجاز!");
+      window.location.href = "index.php";
+    } else {
+      loadUsers();
+    }
+  </script>
+</body>
+</html>
